@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QApplication, QLabel, QWidget, QSystemTrayIcon, QMenu
 from PyQt6.QtGui import QPixmap, QIcon, QAction
-from PyQt6.QtCore import QObject, pyqtSignal, QTimer, Qt
+from PyQt6.QtCore import pyqtSignal, QTimer, Qt
 from configparser import ConfigParser
 import subprocess, shutil, random, keyboard, sys, os, win32gui, win32api, win32con
 
@@ -81,16 +81,6 @@ class bongoAssets():
                 if not os.path.exists(target):
                     shutil.copy(source, target)
 
-class keyListener(QObject):
-    keyPress = pyqtSignal(str)
-
-    def __init__(self):
-        super().__init__()
-        keyboard.on_press(self.onPress, suppress= False)
-
-    def onPress(self, event):
-        self.keyPress.emit(event.name)
-
 class fullscreenDetector():
     def fullscreenCheck(self):
         try:
@@ -131,7 +121,7 @@ class App(QWidget):
         self.timer.start(250)
         self.pawTap = 0
         self.timer.timeout.connect(self.keyPressed)
-        self.timer.start(10)
+        self.timer.start(25)
 
         self.pawDetected.connect(self.tapDrums)
 
@@ -240,7 +230,7 @@ class App(QWidget):
         else:
             if not self.isVisible():
                 self.show()
-                2
+                
     def openConfig():
         if sys.platform == "win32":
             subprocess.Popen(['explorer', App.CONFIG])
@@ -248,7 +238,7 @@ class App(QWidget):
     def keyPressed(self):
         paw = 0
 
-        leftSide = [1,2,3,4,5,6,16,17,18,19,20,30,31,32,33,34,30,31,41,44,45,46,47,48,59,60,61,62,63,64,91]
+        leftSide = [1,2,3,4,5,6,16,17,18,19,20,30,31,32,33,34,31,41,44,45,46,47,48,59,60,61,62,63,64,91]
         rightSide = [7,8,9,10,11,12,13,21,22,23,24,25,26,27,35,36,37,38,39,43,49,50,51,52,53,65,66,67,68,72,75,77,80,87,88,]
         leftFuncSide = {'left ctrl','left alt','left shift',  'caps lock', 'tab', 'windows'}
         rightFuncSide = {'right shift', 'enter', 'backspace'}
@@ -292,7 +282,6 @@ class App(QWidget):
                 self.label.setPixmap(self.catScaledDown)
             else:
                 self.label.setPixmap(self.catScaledUp)
-            
         
         else:
             self.random = random.randint(1, 100)
