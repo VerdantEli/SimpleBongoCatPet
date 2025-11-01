@@ -34,7 +34,7 @@ Can only be runned with:
 ---
 
 ### Option 2: From Source
-1. Install Python 3.7+ from [python.org](https://python.org) or use:
+1. Install Python from [python.org](https://python.org) or use:
 ```
 winget install 9NQ7512CXL7T
 ```
